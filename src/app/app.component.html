@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="formAdd">
+  <div class="formAdd" *ngIf="!editP">
     <h1>Add a new product</h1>
     <form (ngSubmit)="add()">
     <input class="form-control" type="text" placeholder="Name ... " [(ngModel)]="newProduct.name" name="name" >
@@ -9,43 +9,21 @@
     <button class="btn btn-dark">Add product</button>
   </form>
   </div>
+  <div class="formAdd" *ngIf="editP">
+    <h1>Edit product</h1>
+    <form (ngSubmit)="update()">
+    <input class="form-control" type="text" placeholder="Name ... " [(ngModel)]="newProduct.name" name="name" >
+    <input class="form-control" type="number" placeholder="Price ... " min="0" [(ngModel)]="newProduct.price" name="price">
+    <input class="form-control" type="text" placeholder="Category ... " [(ngModel)]="newProduct.category" name="category">
+    <input class="form-control" type="number" placeholder="Stock ... " min="0" [(ngModel)]="newProduct.stock" name="stock">
+    <button type="submit" class="btn btn-dark">Update</button>
+  </form>
+  </div>
   <div class="content">
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Chercher un produit par nom ..." [(ngModel)]="name">
     </div>
-    <!-- <div class="form">
-      <input type="text" placeholder="Chercher un produit par nom ..." [(ngModel)]="name">
-      <select [(ngModel)]="columnToSort">
-        <option value="">Sélectionnez une colonne</option>
-        <option value="name">Name</option>
-        <option value="price">Price</option>
-        <option value="category">Category</option>
-      </select> 
-    </div> -->
     <h1>List of products</h1>
-    <!-- <table class="table table-striped">
-      <thead>
-        <tr class="head">
-          <th scope="col">Id</th>
-          <th scope="col">Name <i class="bi bi-sort-up" (click)="sort('name')"></i></th>
-          <th scope="col">Price <i class="bi bi-sort-up" (click)="sort('price')"></i></th>
-          <th scope="col">Category <i class="bi bi-sort-up" (click)="sort('category')"></i></th>
-          <th scope="col">Stock</th>
-        </tr>
-      </thead>
-      
-      [ngClass]="product.stock>0 ? 'nonRupture':'rupture'"
-       <tbody>
-        <tr *ngFor="let product of products | filter:name |tri:columnToSort">
-          <td [appHighlight]="product.stock">{{product.id}}</td>
-          <td [appHighlight]="product.stock">{{product.name}}</td>
-          <td [appHighlight]="product.stock">{{product.price | currency: 'EUR'}}</td>
-          <td [appHighlight]="product.stock">{{product.category}}</td>
-          <td [appHighlight]="product.stock">{{product.stock}}</td>
-        </tr>
-       </tbody>
-      
-    </table> -->
     <table >
         <tr class="head">
           <th scope="col">Id</th>
@@ -53,6 +31,7 @@
           <th scope="col">Price <i class="bi bi-sort-up" (click)="sort('price')"></i></th>
           <th scope="col">Category <i class="bi bi-sort-up" (click)="sort('category')"></i></th>
           <th scope="col">Stock</th>
+          <th></th>
         </tr>
         <tr *ngFor="let product of products | filter:name |tri:columnToSort" [appHighlight]="product.stock">
           <td>{{product.id}}</td>
@@ -60,6 +39,10 @@
           <td>{{product.price | currency: 'EUR'}}</td>
           <td>{{product.category}}</td>
           <td>{{product.stock}}</td>
+          <td>
+            <button class="btn btn-warning" (click)="edit(product)"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-light" (click)="delete(product.id)"><i class="bi bi-trash3-fill"></i></button>
+          </td>
         </tr>
     </table>
   </div>

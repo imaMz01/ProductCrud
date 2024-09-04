@@ -30,8 +30,13 @@
     text-align: center;
     height: 30px;
 }
-.container table tr th i{
+.container table tr th i,
+.container table tr td i{
     cursor: pointer;
+    color: black;
+}
+.container table tr td button{
+    margin: 5px;
 }
 .container table tr{
    position: relative;

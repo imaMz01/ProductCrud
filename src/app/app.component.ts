@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
   name:string=""
   newProduct!:Product
   columnToSort:string=""
+  editP:boolean=false
   ngOnInit(): void {
     this.products=this.pr.getProducts()
     console.log(this.products)
@@ -40,5 +41,40 @@ export class AppComponent implements OnInit{
   }
   sort(column:string){
     this.columnToSort=column
+  }
+  edit(product:Product){
+    this.editP=true
+    this.newProduct={
+      id:product.id,
+      name:product.name,
+      price:product.price,
+      category:product.category,
+      stock:product.stock
+    }
+  }
+  update(){
+    this.products.filter(product=>{
+      if(product.id == this.newProduct.id){
+        product.category=this.newProduct.category
+        product.name=this.newProduct.name
+        product.stock=this.newProduct.stock
+        product.price=this.newProduct.price
+        console.log(product)
+        this.newProduct={
+          id:0,
+          name:"",
+          price:0,
+          category:"",
+          stock:0
+        }
+      }
+    })
+    this.editP=false
+  }
+  delete(id:number){
+    let index=this.products.findIndex(product=>product.id===id)
+    if(index!=-1){
+      this.products.splice(index,1)
+    }
   }
 }
